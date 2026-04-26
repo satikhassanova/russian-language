@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>MusicMind</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #4A90E2, #9013FE);
+    color: white;
+    text-align: center;
+}
+
+.container {
+    padding: 40px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.choice-btn {
+    background: white;
+    color: black;
+}
+
+.choice-btn:hover {
+    background: #ddd;
+}
+
+.hidden {
+    display: none;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    width: 320px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- СТАРТ -->
+<div id="start">
+    <h1>🎧 MusicMind</h1>
+    <p>Узнай своё музыкальное состояние</p>
+    <button onclick="startTest()">Начать</button>
+</div>
+
+<!-- ВЫБОР -->
+<div id="mood" class="hidden">
+    <h2>Выбери, что тебе ближе</h2>
+    <button class="choice-btn" onclick="setMood('happy')">😊 Радость</button>
+    <button class="choice-btn" onclick="setMood('sad')">😢 Грусть</button>
+    <button class="choice-btn" onclick="setMood('calm')">🌿 Спокойствие</button>
+</div>
+
+<!-- МУЗЫКА -->
+<div id="music" class="hidden">
+    <h2>Слушай музыку</h2>
+
+    <div class="card">
+        <p id="trackName"></p>
+        <audio id="audio" controls></audio>
+    </div>
+
+    <button onclick="react()">➡️ Следующая</button>
+</div>
+
+<!-- РЕЗУЛЬТАТ -->
+<div id="result" class="hidden">
+    <h2>✨ Твоё состояние</h2>
+    <p id="resultText"></p>
+    <button onclick="location.reload()">Пройти снова</button>
+</div>
+
+</div>
+
+<script>
+
+let mood = "";
+let index = 0;
+
+let tracks = [];
+
+function startTest() {
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("mood").classList.remove("hidden");
+}
+
+function setMood(m) {
+    mood = m;
+    index = 0;
+
+    document.getElementById("mood").classList.add("hidden");
+    document.getElementById("music").classList.remove("hidden");
+
+    if (mood === "happy") {
+        tracks = [
+            {name: "Happy — Pharrell Williams", src: "happy.mp3"},
+            {name: "I Feel It Coming — The Weeknd", src: "i_feel_it_coming.mp3"}
+        ];
+    }
+
+    if (mood === "sad") {
+        tracks = [
+            {name: "Slow Dancing in the Dark — Joji", src: "slow_dancing_in_the_dark.mp3"},
+            {name: "Back to Friends — sombr", src: "back_to_friends.mp3"}
+        ];
+    }
+
+    if (mood === "calm") {
+        tracks = [
+            {name: "Heart to Heart — Mac DeMarco", src: "heart_to_heart.mp3"},
+            {name: "Qolshatyr — Rusha, M’Dee", src: "qolshatyr.mp3"}
+        ];
+    }
+
+    loadTrack();
+}
+
+function loadTrack() {
+    document.getElementById("trackName").innerText = tracks[index].name;
+    document.getElementById("audio").src = tracks[index].src;
+}
+
+function react() {
+    index++;
+
+    if (index < tracks.length) {
+        loadTrack();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById("music").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    let text = "";
+
+    if (mood === "happy") {
+        text = "😊 Ты радостный человек — тебе важно движение, энергия и позитив.";
+    }
+
+    if (mood === "sad") {
+        text = "😢 Ты грустный человек — ты глубоко чувствуешь эмоции и музыку.";
+    }
+
+    if (mood === "calm") {
+        text = "🌿 Ты спокойный человек — тебе комфортны тишина и баланс.";
+    }
+
+    document.getElementById("resultText").innerText = text;
+}
+
+</script>
+
+</body>
+</html>
