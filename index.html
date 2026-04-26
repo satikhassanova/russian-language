@@ -74,7 +74,7 @@ button {
 
     <div class="card">
         <p id="trackName"></p>
-        <audio id="audio" controls></audio>
+        <iframe id="player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src=""></iframe>
     </div>
 
     <button onclick="react()">➡️ Следующая</button>
@@ -108,24 +108,27 @@ function setMood(m) {
     document.getElementById("mood").classList.add("hidden");
     document.getElementById("music").classList.remove("hidden");
 
+    const base = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/";
+    const params = "&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false";
+
     if (mood === "happy") {
         tracks = [
-            {name: "Happy — Pharrell Williams", src: "happy.mp3"},
-            {name: "I Feel It Coming — The Weeknd", src: "i_feel_it_coming.mp3"}
+            {name: "Happy — Pharrell Williams", embed: base + "pharrellwilliams-official/happy-live" + params},
+            {name: "I Feel It Coming — The Weeknd", embed: base + "theweeknd/i-feel-it-coming-1" + params}
         ];
     }
 
     if (mood === "sad") {
         tracks = [
-            {name: "Slow Dancing in the Dark — Joji", src: "slow_dancing_in_the_dark.mp3"},
-            {name: "Back to Friends — sombr", src: "back_to_friends.mp3"}
+            {name: "Slow Dancing in the Dark — Joji", embed: base + "jojiofficial/slow-dancing-in-the-dark" + params},
+            {name: "Back to Friends — sombr", embed: base + "sombrsongs/back-to-friends" + params}
         ];
     }
 
     if (mood === "calm") {
         tracks = [
-            {name: "Heart to Heart — Mac DeMarco", src: "heart_to_heart.mp3"},
-            {name: "Qolshatyr — Rusha, M’Dee", src: "qolshatyr.mp3"}
+            {name: "Heart to Heart — Mac DeMarco", embed: base + "mac-demarco-official/heart-to-heart" + params},
+            {name: "Qolshatyr — Rusha, M’Dee", embed: base + "qpalzmtyty/rusha-mdee-qolshatyr-speed-up" + params}
         ];
     }
 
@@ -134,7 +137,7 @@ function setMood(m) {
 
 function loadTrack() {
     document.getElementById("trackName").innerText = tracks[index].name;
-    document.getElementById("audio").src = tracks[index].src;
+    document.getElementById("player").src = tracks[index].embed;
 }
 
 function react() {
